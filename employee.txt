@@ -1,0 +1,33 @@
+create database company;
+use company;
+CREATE TABLE employee (
+  ID INT PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL,
+  Department VARCHAR(255) NOT NULL,
+  DOB DATE NOT NULL,
+  city VARCHAR(255) NOT NULL,
+  mobile VARCHAR(255) NOT NULL,
+  status VARCHAR(255) NOT NULL,
+  salary INT
+);
+
+INSERT INTO employee (ID, Name, Department, DOB, city, mobile, status, salary)
+VALUES
+  (101, 'Alice', 'IT', '1990-01-01', 'New York', '1234567890', 'Active', 50000),
+  (102, 'Bob', 'Marketing', '1992-02-02', 'Chicago', '9876543210', 'Inactive', 60000),
+  (103, 'Charlie', 'Sales', '1994-03-03', 'Los Angeles', '0987654321', 'Active', 70000),
+  (104, 'David', 'HR', '1996-04-04', 'Houston', '1234567890', 'Inactive', 80000),
+  (105, 'Emily', 'Finance', '1998-05-05', 'Phoenix', '9876543210', 'Active', 90000);
+
+SELECT * FROM employee;
+-- Show The Details of employees whose salary in between 20000-60000
+SELECT * FROM employee WHERE salary BETWEEN 20000 AND 60000;
+
+-- Display Name of employees currently working in company
+SELECT Name FROM employee WHERE status = 'Active';
+
+-- Show the Name, DOB and City of the employee whose name is starts with "P"
+SELECT Name, DOB, city FROM employee WHERE Name LIKE 'P%';
+
+-- Retrieve the Name of employees who work in "IT" Department
+SELECT Name FROM employee WHERE Department = 'IT';

@@ -1,0 +1,54 @@
+create database joins;
+use joins;
+CREATE TABLE Emp (
+    Emp_ID INT PRIMARY KEY,
+    Emp_Name VARCHAR(255),
+    Profile VARCHAR(255)
+);
+
+INSERT INTO Emp (Emp_ID, Emp_Name, Profile)
+VALUES
+(1, 'John', 'Manager'),
+(2, 'Alice', 'Developer'),
+(3, 'Bob', 'Tester'),
+(4, 'Eva', 'Analyst');
+
+CREATE TABLE Dept (
+    Dept_ID INT PRIMARY KEY,
+    Emp_ID INT,
+    FOREIGN KEY (Emp_ID) REFERENCES Emp(Emp_ID)
+);
+
+INSERT INTO Dept (Dept_ID, Emp_ID)
+VALUES
+(101, 1),
+(102, 2),
+(103, 3),
+(104, 4);
+
+SELECT Emp.Emp_ID, Emp.Emp_Name, Emp.Profile, Dept.Dept_ID
+FROM Emp
+INNER JOIN Dept ON Emp.Emp_ID = Dept.Emp_ID;
+
+SELECT Emp.Emp_ID, Emp.Emp_Name, Emp.Profile, Dept.Dept_ID
+FROM Emp
+LEFT JOIN Dept ON Emp.Emp_ID = Dept.Emp_ID;
+
+SELECT Emp.Emp_ID, Emp.Emp_Name, Emp.Profile, Dept.Dept_ID
+FROM Emp
+RIGHT JOIN Dept ON Emp.Emp_ID = Dept.Emp_ID;
+
+
+SELECT Emp.Emp_ID, Emp.Emp_Name, Emp.Profile, Dept.Dept_ID
+FROM Emp
+LEFT JOIN Dept ON Emp.Emp_ID = Dept.Emp_ID
+
+UNION
+
+SELECT Emp.Emp_ID, Emp.Emp_Name, Emp.Profile, Dept.Dept_ID
+FROM Emp
+RIGHT JOIN Dept ON Emp.Emp_ID = Dept.Emp_ID
+WHERE Emp.Emp_ID IS NULL;
+
+
+

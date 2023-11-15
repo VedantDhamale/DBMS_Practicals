@@ -1,0 +1,45 @@
+create database ship;
+use ship;
+CREATE TABLE orders (
+  OrderID INT PRIMARY KEY,
+  CustomerName VARCHAR(255) NOT NULL,
+  OrderDate DATE NOT NULL,
+  ProductName VARCHAR(255) NOT NULL,
+  Quantity INT NOT NULL,
+  TotalPrice int NOT NULL
+);
+
+INSERT INTO orders values(1, 'John Doe', '2023-10-04', 'Laptop', 1, 1200);
+INSERT INTO orders values(2, 'Jane Smith', '2023-10-05', 'Desktop', 2, 800);
+INSERT INTO orders values(3, 'Peter Jones', '2023-10-06', 'Monitor', 1, 200);
+
+ALTER TABLE orders ADD ShippingAddress VARCHAR(255);
+
+UPDATE orders
+SET ShippingAddress = '123 Main Street, New York, NY 10001'
+WHERE OrderID = 1;
+
+UPDATE orders
+SET ShippingAddress = '456 Elm Street, Chicago, IL 60601'
+WHERE OrderID = 2;
+
+UPDATE orders
+SET ShippingAddress = '789 Oak Street, Los Angeles, CA 90017'
+WHERE OrderID = 3;
+
+SELECT * FROM orders
+WHERE OrderDate BETWEEN '2023-01-01' AND '2023-12-31';
+
+SELECT DISTINCT CustomerName
+FROM orders
+GROUP BY CustomerName
+HAVING COUNT(*) > 1;
+
+SELECT CustomerName, ProductName, TotalPrice
+FROM orders
+WHERE Quantity > 10;
+
+SELECT CustomerName
+FROM orders
+WHERE ProductName = 'Laptop';
+

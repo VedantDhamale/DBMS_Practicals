@@ -1,0 +1,74 @@
+create database third;
+use third;
+
+CREATE TABLE Supplier (
+  SNO INT PRIMARY KEY,
+  Sname VARCHAR(255) NOT NULL,
+  Status VARCHAR(255) NOT NULL,
+  City VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Supplier (SNO, Sname, Status, City)
+VALUES
+  (101, 'ABC Electronics', 'Active', 'Mumbai'),
+  (102, 'XYZ Parts', 'Active', 'Delhi'),
+  (103, 'PQR Supplies', 'Inactive', 'Bangalore'),
+  (104, 'DEF Components', 'Active', 'Hyderabad'),
+  (105, 'MNO Technologies', 'Inactive', 'Chennai');
+
+CREATE TABLE Parts (
+  PNO INT PRIMARY KEY,
+  Pname VARCHAR(255) NOT NULL,
+  Color VARCHAR(255) NOT NULL,
+  Weight DECIMAL(10,2) NOT NULL,
+  City VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Parts (PNO, Pname, Color, Weight, City)
+VALUES
+  (1234, 'Laptop Battery', 'Black', 0.5, 'Mumbai'),
+  (1235, 'Desktop Hard Drive', 'Silver', 1.0, 'Delhi'),
+  (1236, 'Laptop RAM', 'Green', 0.25, 'Bangalore'),
+  (1237, 'Monitor Cable', 'Black', 0.1, 'Hyderabad'),
+  (1238, 'Keyboard', 'White', 0.3, 'Chennai');
+  
+  CREATE TABLE Shipments (
+  SNO INT  NOT NULL,
+  PNO INT NOT NULL,
+  QTY INT NOT NULL,
+  PRIMARY KEY (SNO, PNO)
+);
+
+INSERT INTO Shipments (SNO, PNO, QTY)
+VALUES
+  (101, 1234, 150),
+  (101, 1235, 120),
+  (102, 1236, 180),
+  (103, 1237, 200),
+  (104, 1238, 160),
+  (105, 1234, 110),
+  (102, 1235, 130),
+  (103, 1236, 140),
+  (104, 1237, 150),
+  (105, 1238, 120);
+
+SELECT Shipments.SNO, Supplier.Sname, Shipments.PNO, Parts.Pname, Shipments.QTY
+FROM Shipments
+JOIN Supplier ON Shipments.SNO = Supplier.SNO
+JOIN Parts ON Shipments.PNO = Parts.PNO
+WHERE Shipments.QTY < 157;
+
+SELECT Supplier.SNO, Supplier.Sname, Shipments.PNO, Parts.Pname
+FROM Supplier
+JOIN Shipments ON Supplier.SNO = Shipments.SNO
+JOIN Parts ON Shipments.PNO = Parts.PNO
+WHERE Shipments.QTY > (SELECT AVG(QTY) FROM Shipments);
+
+SELECT Parts.PNO, Parts.Color, SUM(Shipments.QTY) AS AggregateQuantity
+FROM Parts
+JOIN Shipments ON Parts.PNO = Shipments.PNO
+JOIN Supplier ON Shipments.SNO = Supplier.SNO
+WHERE Parts.PNO = 1237 AND Parts.Color = 'black' AND Supplier.City = 'Hyderabad';
+
+
+

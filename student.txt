@@ -1,0 +1,50 @@
+create database ai;
+use ai;
+CREATE TABLE Student (
+    ID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    Marks INT,
+    City VARCHAR(255),
+    Class VARCHAR(2)
+);
+
+
+INSERT INTO Student (ID, Name, Marks, City, Class)
+VALUES
+(1, 'Alice', 85, 'City1', 'TE'),
+(2, 'Bob', 72, 'City2', 'TE'),
+(3, 'Charlie', 90, 'City3', 'TE'),
+(4, 'David', 65, 'City4', 'TE'),
+(5, 'Eva', 78, 'City5', 'TE'),
+(6, 'Frank', 95, 'City6', 'TE'),
+(7, 'Grace', 60, 'City7', 'TE'),
+(8, 'Hank', 82, 'City8', 'TE');
+
+SELECT COUNT(*) AS TE_Strength
+FROM Student
+WHERE Class = 'TE';
+
+SELECT Name
+FROM Student
+WHERE Marks = (SELECT MAX(Marks) FROM Student);
+
+SELECT Name, Marks
+FROM Student
+WHERE Class = 'TE'
+ORDER BY Marks DESC
+LIMIT 3;
+
+
+SELECT Name
+FROM Student
+WHERE Marks = (SELECT MIN(Marks) FROM Student);
+
+SELECT AVG(Marks) AS AverageMarks_TE
+FROM Student
+WHERE Class = 'TE';
+
+SELECT Name
+FROM Student
+WHERE Marks > 70;
+
+

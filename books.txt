@@ -1,0 +1,79 @@
+create database library;
+use library;
+
+CREATE TABLE Books (
+  BookID INT PRIMARY KEY,
+  Title VARCHAR(255) NOT NULL,
+  Author VARCHAR(255) NOT NULL,
+  ISBN VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Books (BookID, Title, Author, ISBN)
+VALUES
+  (101, 'The Lord of the Rings', 'J.R.R. Tolkien', '978-0-395-19372-3'),
+  (102, 'The Hitchhikers Guide to the Galaxy', 'Douglas Adams', '978-0-552-14522-5'),
+  (103, 'Pride and Prejudice', 'Jane Austen', '978-0-14-343468-0'),
+  (104, 'To Kill a Mockingbird', 'Harper Lee', '978-0-06-298000-7'),
+  (105, 'Harry Potter and the Sorcerers Stone', 'J.K. Rowling', '978-0-7475-3274-4');
+  
+  
+CREATE TABLE Customers (
+  CustomerID INT PRIMARY KEY,
+  FirstName VARCHAR(255) NOT NULL,
+  LastName VARCHAR(255) NOT NULL,
+  Email VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Customers (CustomerID, FirstName, LastName, Email)
+VALUES
+  (101, 'John', 'Doe', 'johndoe@email.com'),
+  (102, 'Jane', 'Smith', 'janesmith@email.com'),
+  (103, 'Peter', 'Jones', 'peterjones@email.com'),
+  (104, 'Alice', 'Brown', 'alicebrown@email.com'),
+  (105, 'Michael', 'Miller', 'michaelmiller@email.com');
+  
+  CREATE TABLE Checkouts (
+  CheckoutID INT PRIMARY KEY,
+  CustomerID INT NOT NULL,
+  BookID INT NOT NULL,
+  CheckoutDate DATE NOT NULL,
+  ReturnDate DATE
+);
+
+INSERT INTO Checkouts (CheckoutID, CustomerID, BookID, CheckoutDate)
+VALUES
+  (101, 101, 101, '2023-10-04'),
+  (102, 102, 103, '2023-10-05'),
+  (103, 103, 102, '2023-10-06'),
+  (104, 104, 101, '2023-10-07'),
+  (105, 105, 105, '2023-10-08');
+
+CREATE VIEW CheckedOutBooks AS
+SELECT Books.Title, CONCAT(Customers.FirstName, ' ', Customers.LastName) AS FullName, Checkouts.CheckoutDate
+FROM Books
+JOIN Checkouts ON Books.BookID = Checkouts.BookID
+JOIN Customers ON Checkouts.CustomerID = Customers.CustomerID;
+
+select * from CheckedOutBooks;
+
+SELECT Title
+FROM Books 
+WHERE BookID = (
+    SELECT BookID
+    FROM Checkouts 
+    ORDER BY CheckoutDate
+    LIMIT 1
+);
+
+
+SELECT Books.Title, Books.Author
+FROM Books
+LEFT JOIN Checkouts ON Books.BookID = Checkouts.BookID
+WHERE Checkouts.BookID IS NULL;
+
+
+
+
+
+
+
